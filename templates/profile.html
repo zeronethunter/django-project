@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="d-flex justify-content-center">
+        <div class="w-50 bg-secondary rounded-4 px-3 shadow">
+            <div class="col p-3">
+                <h1 class="mb-4 text-center">Your Profile</h1>
+                <div class='my-3'>
+                    <h2>Username</h2>
+                    <input class="form-control" value="{{ user.user.username }}" disabled="disabled"/>
+                </div>
+                <div class="my-3">
+                    <h2>Email</h2>
+                    <input class="form-control" value="{{ user.user.email }}" disabled="disabled"/>
+                </div>
+                <div class="my-3">
+                    <h2>Profile Picture</h2>
+                    {% if user.profile_pic %}
+                        <img src="{{ user.profile_pic.url }}" class="profile-pic">
+                    {% else %}
+                        <form method="POST" enctype="multipart/form-data" class="my-3">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button class="w-25 mb-2 btn btn-lg rounded-4 btn-secondary" type="submit">Create</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const input_form = document.getElementById('id_profile_pic')
+        const input_label = document.getElementsByTagName('label')[0]
+        input_form.className += " form-control"
+        input_label.innerHTML = "Upload"
+    </script>
+{% endblock content %}

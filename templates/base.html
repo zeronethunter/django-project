@@ -1,0 +1,28 @@
+{% load static %}
+<!doctype html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>zenum</title>
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/user-block.css" %}">
+</head>
+
+<body class="bg-primary">
+
+{% include 'header.html' %}
+
+<div style="height: 110px">
+
+</div>
+
+{% block content %}
+{% endblock content %}
+
+{% include 'footer.html' %}
+
+<script src="{% static "js/modal-dialog.js" %}"></script>
+<script src="{% static "js/header-wrapper.js" %}"></script>
+</body>
+</html>

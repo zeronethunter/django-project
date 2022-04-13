@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+    <div class="d-flex justify-content-center">
+        <div class="w-75 bg-secondary rounded-4 px-3 shadow">
+            <div class="col p-3">
+                <div class="py-3 shadow-header my-2">
+                    <div class="col-12">
+                        <div class="d-flex flex-row">
+                            <div class="mx-4 d-inline-block text-center">
+                                <img src="{% static 'img/test.png' %}" alt="test" class="img-question">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#05386B"
+                                     class="rating-up"
+                                     viewBox="0 0 16 16">
+                                    <path d="M3.204 11h9.592L8 5.519 3.204 11zm-.753-.659 4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659z"/>
+                                </svg>
+                                <div class="">{{ rating }}</div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#05386B"
+                                     class="rating-down"
+                                     viewBox="0 0 16 16">
+                                    <path d="M3.204 5h9.592L8 10.481 3.204 5zm-.753.659 4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"/>
+                                </svg>
+                            </div>
+                            <div class="align-self-stretch flex-fill pe-4 position-relative">
+                                <div class="border-bottom border-1 border-primary d-flex flex-row">
+                                    <a class="text-primary me-auto h3 text-decoration-none"
+                                       href="{% url 'questions' question.id %}">{{ question.question_title }}</a>
+                                </div>
+                                <p class="text-primary">{{ question.question_text }}</p>
+                            </div>
+                        </div>
+
+                        <div class="justify-content-end d-flex align-items-start ps-4 pe-4">
+                            {% for tag in question.tags.all %}
+                                {% include 'include/tag.html' %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-primary d-flex flex-row align-items-center mx-3">
+                <h2>Answers:</h2>
+                <div class="ms-auto">{{ question.count_answers }} answers</div>
+            </div>
+            {% if answers %}
+                {% for answer in answers %}
+                    {% include 'include/answer.html' %}
+                {% endfor %}
+            {% else %}
+                <h3 class="text-primary m-3 mb-5 text-center">No answers yet!</h3>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

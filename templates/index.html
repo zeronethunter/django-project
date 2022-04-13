@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+    <main class="justify-content-center">
+        <div class="row justify-content-center">
+            <div class="col-6 me-6">
+                <div class="bg-secondary rounded-4 px-3 pb-3 shadow">
+                    <div class="mt-2 mb-4 border-bottom border-primary border-2 ">
+                        <h2 class="text-center text-primary pt-2">Questions</h2>
+                    </div>
+                    {% with paginator=questions %}
+                        {% include 'include/paginator.html' %}
+                        {% for question in questions %}
+                            {% include "include/question.html" %}
+                        {% endfor %}
+                        {% include 'include/paginator.html' %}
+                    {% endwith %}
+                </div>
+            </div>
+            <div class="col-3 ms-6">
+                <div class="bg-secondary rounded-4 px-3 pb-1 shadow">
+                    <div class="mt-2 mb-3 border-bottom border-primary border-2 ">
+                        <h2 class="text-center text-primary pt-2">Tags</h2>
+                    </div>
+                    {% for tag in tags %}
+                        {% include "include/tag.html" %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}

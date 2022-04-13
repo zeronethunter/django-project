@@ -1,0 +1,26 @@
+{% load static %}
+<div class="py-3 shadow-header my-2 border border-primary border-3">
+    <div class="col-12">
+        <div class="d-flex flex-row">
+            <div class="mx-4 align-self-center">
+                <img src="{% static 'img/test.png' %}" alt="test" class="img-question">
+            </div>
+            <div class="align-self-stretch flex-fill pe-4 position-relative">
+                <div class="border-bottom border-1 border-primary d-flex flex-row">
+                    <a class="text-primary me-auto h3 text-decoration-none"
+                       href="{% url 'questions' question.id %}">{{ question.question_title }}</a>
+                    {% if question.is_answered %}
+                        <h3 class="text-success">✔</h3>
+                    {% endif %}
+                </div>
+                <p class="text-primary mt-3 text-overflow-4">{{ question.question_text }}</p>
+            </div>
+        </div>
+        <div class="justify-content-center d-flex align-items-start ps-4">
+            {% for tag in question.tags.all %}
+                {% include 'include/tag.html' %}
+            {% endfor %}
+        </div>
+        <div class="mx-4 text-end">{{ question.count_answers }} answers</div>
+    </div>
+</div>
