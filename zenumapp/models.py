@@ -32,7 +32,7 @@ def generate_random(u_count, q_count, a_max_count):
         q = Question.objects.create(question_title=random_string(10, 25),
                                     question_text=lorem_ipsum.words(random.randint(20, 100)),
                                     views=random.randint(1, q_count),
-                                    pub_date=now(), user=question_user)
+                                    pub_date=now(), user=question_user, is_hot=random.randint(0, 1))
         q.tags.add(rnd_words.get_word(), rnd_words.get_word(), rnd_words.get_word())
 
         random_answers = random.randint(2, a_max_count)
@@ -88,8 +88,9 @@ class Question(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='questions')
     views = models.PositiveIntegerField()
     tags = TaggableManager()
-    pub_date = models.DateTimeField(blank=True)
+    pub_date = models.DateTimeField(auto_now_add=True, blank=True)
     last_update = models.DateTimeField(auto_now_add=True)
+    is_hot = models.BooleanField()
 
     objects = QuestionManager()
 
@@ -105,6 +106,22 @@ class Question(models.Model):
     def count_answers(self):
         return self.answers.count()
 
+    def get_creator(self):
+        return self.user
+
+    def get_rating(self):
+        rating = self.rating.all()
+        full_rating = 0
+        for rate in rating:
+            if rate.up_vote:
+                full_rating += 1
+            elif rate.down_vote:
+                full_rating -= 1
+        return full_rating
+
+    def get_all_ratings(self):
+        return self.rating.all()
+
     def __str__(self):
         return self.question_title
 
@@ -114,8 +131,21 @@ class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="answers")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="answers")
     is_right = models.BooleanField()
-    pub_date = models.DateTimeField(blank=True)
+    pub_date = models.DateTimeField(auto_now_add=True, blank=True)
     last_update = models.DateTimeField(auto_now_add=True)
+
+    def get_creator(self):
+        return self.user
+
+    def get_rating(self):
+        rating = self.rating.all()
+        full_rating = 0
+        for rate in rating:
+            if rate.up_vote:
+                full_rating += 1
+            elif rate.down_vote:
+                full_rating -= 1
+        return full_rating
 
     def __str__(self):
         return self.answer_text
@@ -126,9 +156,20 @@ class Rating(models.Model):
     up_vote = models.BooleanField()
     down_vote = models.BooleanField()
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='rating', null=True)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='rating')
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='rating')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rating', null=True)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='rating', null=True)
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='rating', null=True)
+
+    def get_vote(self):
+        if self.exists():
+            if self.up_vote:
+                return 1
+            elif self.down_vote:
+                return -1
+        return 0
+
+    def get_user(self):
+        return self.user
 
     def __str__(self):
-        return str(self.vote)
+        return str(self.up_vote)

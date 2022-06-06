@@ -17,6 +17,11 @@
                     <h2>Profile Picture</h2>
                     {% if user.profile_pic %}
                         <img src="{{ user.profile_pic.url }}" class="profile-pic">
+                        <form method="POST" enctype="multipart/form-data" class="my-3">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button class="w-25 mb-2 btn btn-lg rounded-4 btn-secondary" type="submit">Change</button>
+                        </form>
                     {% else %}
                         <form method="POST" enctype="multipart/form-data" class="my-3">
                             {% csrf_token %}

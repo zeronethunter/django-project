@@ -2,19 +2,20 @@
 {% block content %}
     <div class="d-flex justify-content-center">
         <div class="w-50 bg-secondary rounded-4 px-3 shadow">
-            <div class="col p-3">
+            <form class="col p-3" method="post">
+                {% csrf_token %}
                 <h1 class="mb-4 text-center">Ask a Question</h1>
                 <h2>Title</h2>
-                <input type="text" class="form-control mb-4" placeholder="input title of your question"
+                <input type="text" class="form-control mb-4" name="title" placeholder="input title of your question"
                        aria-label="Title" aria-describedby="basic-addon2">
                 <h2>Question</h2>
-                <textarea class="form-control mb-4" placeholder=""
+                <textarea class="form-control mb-4" name="text" placeholder="ask your question here"
                           aria-label="With textarea"></textarea>
                 <h2>Tags</h2>
-                <input type="text" class="form-control mb-5" placeholder="example: django python code"
+                <input type="text" class="form-control mb-5" name="tags" placeholder="example: django python code"
                        aria-label="Title" aria-describedby="basic-addon2">
-                <button type="button" class="btn btn-secondary btn-large w-100">ASK</button>
-            </div>
+                <button type="submit" class="btn btn-secondary btn-large w-100">ASK</button>
+            </form>
         </div>
     </div>
 {% endblock content %}
