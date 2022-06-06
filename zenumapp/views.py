@@ -11,7 +11,7 @@ from django.contrib.auth import authenticate, login, forms
 from django.contrib import messages
 
 from .forms import CreateUserForm, CreateProfileForm, CreateVoteForm
-from .models import Profile, generate_random, Rating
+from .models import Profile, Rating
 
 
 def tag(request):
@@ -195,6 +195,9 @@ def questions(request, pk):
         elif rate.down_vote:
             full_rating -= 1
 
+    if request.user.is_superuser:
+        Profile.objects.update_or_create(user=request.user)
+
     if request.user.is_authenticated:
         return render(request, "questions.html", {'question': question_to_show,
                                                   'answers': p_answers,
@@ -269,6 +272,9 @@ def home(request, is_hot):
         raise Http404("No such page. There are only {} pages.".format(paginator.num_pages))
 
     # generate_random(10, 100, 10)
+
+    if request.user.is_superuser:
+        Profile.objects.update_or_create(user=request.user)
 
     if request.user.is_authenticated:
         user = Profile.objects.get_user(request.user)
