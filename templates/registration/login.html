@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="m-auto w-25">
+        <div class="modal-content rounded-4 shadow bg-secondary">
+            <div class="modal-header p-5 pb-4 border-bottom-0 justify-content-center">
+                <h2 class="fw-bold mb-0">Sign In</h2>
+            </div>
+
+            <div class="modal-body p-5 pt-0">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-4" id="id_username" name="username"
+                               placeholder="username">
+                        <label for="id_username">Username</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control rounded-4" id="id_password" name="password"
+                               placeholder="Password">
+                        <label for="id_password">Password</label>
+                    </div>
+                    <button class="w-100 mb-2 btn btn-lg rounded-4 btn-secondary" type="submit">Login</button>
+                </form>
+                {% for message in messages %}
+                    <p id="messages">{{ message }}</p>
+                {% endfor %}
+
+                <div class="mt-4">
+                    <div class="d-flex">
+                        <p class="mt-auto me-auto mb-auto">Don't have an account?</p>
+                        <a class="post-tag border border-primary rounded-4 p-2" href="{% url 'signup' %}">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

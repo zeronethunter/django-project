@@ -1,0 +1,55 @@
+{% load static %}
+<div class="py-3 shadow-header my-2 border border-primary border-3">
+    <div class="col-12">
+        <div class="d-flex flex-row">
+            <div class="mx-4 d-inline-block text-center">
+                {% if question.user.profile.profile_pic %}
+                    <img src="{{ question.user.profile.profile_pic.url }}" alt="test" class="profile-pic">
+                {% else %}
+                    <img src="{% static "img/nothing_to_show.svg" %}" alt="test" class="profile-pic">
+                {% endif %}
+                {% if user.user.is_authenticated %}
+                    <form class="pt-3">
+                        {% csrf_token %}
+                        <input type="hidden">
+                        <button class="btn-primary up-vote" data-id="{{ question.id }}" type="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                                 fill="#05386B" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                      d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"></path>
+                            </svg>
+                        </button>
+                    </form>
+                    <div class="">{{ question.get_rating }}</div>
+                    <form>
+                        {% csrf_token %}
+                        <input type="hidden">
+                        <button class="btn-primary down-vote" data-id="{{ question.id }}" type="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                                 fill="#05386B" class="bi bi-arrow-down-square" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                      d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm8.5 2.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5z"></path>
+                            </svg>
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+            <div class="align-self-stretch flex-fill pe-4 position-relative">
+                <div class="border-bottom border-1 border-primary d-flex flex-row">
+                    <a class="text-primary me-auto h3 text-decoration-none"
+                       href="{% url 'questions' question.id %}">{{ question.question_title }}</a>
+                    {% if question.is_answered %}
+                        <h3 class="text-success">✔</h3>
+                    {% endif %}
+                </div>
+                <p class="text-primary mt-3 text-overflow-4">{{ question.question_text }}</p>
+            </div>
+        </div>
+        <div class="justify-content-center d-flex align-items-start ps-4">
+            {% for tag in question.tags.all %}
+                {% include 'include/tag.html' %}
+            {% endfor %}
+        </div>
+        <div class="mx-4 text-end">{{ question.count_answers }} answers</div>
+    </div>
+</div>

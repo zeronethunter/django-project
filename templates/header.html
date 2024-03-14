@@ -1,0 +1,24 @@
+{% load static %}
+<header class="py-1 bg-header shadow fixed-top overflow-hidden">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-start">
+            <a class="me-3 my-1 p-1 border border-logo border-2 rounded-4" href="{% url 'home' %}">
+                <img src="{% static 'img/logo.svg' %}" alt="logo">
+            </a>
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li><a id="AskRef" type="button" class="btn btn-outline-primary me-2" href="{% url 'ask' %}">Ask</a></li>
+                <li><a id="FAQRef" type="button" class="btn btn-outline-primary me-2">FAQs</a></li>
+                <li><a id="AboutRef" type="button" class="btn btn-outline-primary me-2">About</a></li>
+            </ul>
+
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                <input type="search" class="form-control form-cxontrol-dark" placeholder="Search..."
+                       aria-label="Search">
+            </form>
+
+            {% include 'include/user_icon.html' %}
+
+        </div>
+    </div>
+</header>

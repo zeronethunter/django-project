@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="d-flex justify-content-center">
+        <div class="w-50 bg-secondary rounded-4 px-3 shadow">
+            <div class="col p-3">
+                <div class="mb-4 d-flex flex-row">
+                    <h1 class="text-center">Questions with tag: </h1>
+                    <div class="ms-2 d-inline-block align-self-center">
+                        <a class="post-tag border border-primary rounded-4 p-2">{{ tag_to_find }}</a>
+                    </div>
+                </div>
+                {% for question in questions %}
+                    {% include "include/question.html" %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
